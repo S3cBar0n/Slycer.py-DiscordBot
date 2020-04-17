@@ -43,7 +43,7 @@ class Commands(commands.Cog):
 
 
 # Commands
-     @commands.command()
+    @commands.command()
     async def aboutbot(self, ctx):
         await ctx.send("I am a clever Discord Bot that was put together as part of a school project by my creator @Baron!")
 
