@@ -1,5 +1,6 @@
+import discord
 import os
-from baron_bot.TOKEN import TOKEN
+from TOKEN import TOKEN
 from discord.ext import commands
 
 
