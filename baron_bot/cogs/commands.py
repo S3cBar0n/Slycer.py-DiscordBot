@@ -3,6 +3,8 @@ import random
 import datetime
 import calendar
 from discord.ext import commands
+from baron_bot.bot import client
+
 
 # BEGIN VARIABLES
 dateToday = datetime.date.today()
@@ -62,7 +64,7 @@ class Commands(commands.Cog):
 
     @commands.command()
     async def ping(self, ctx):
-        await ctx.send(f"Pong! {round(client.latency * 1000)}ms")
+        await ctx.send(f'Pong! {round(client.latency * 1000)}ms')
 
     @commands.command(aliases=['8ball'])
     async def _8ball(self, ctx, *, question):
