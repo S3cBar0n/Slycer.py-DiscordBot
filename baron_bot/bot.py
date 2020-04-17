@@ -1,6 +1,7 @@
-import discord
 import os
+from baron_bot.TOKEN import TOKEN
 from discord.ext import commands
+
 
 # Prefix for my commands
 client = commands.Bot(command_prefix = "!")
@@ -22,4 +23,4 @@ for filename in os.listdir("./cogs"):
     if filename.endswith(".py"):
         client.load_extension(f"cogs.{filename[:-3]}")
 
-client.run("Njk5Njg2NTUyNTIzMjQzNTUx.XpkJxw.NoDpTR_GJ-QHj7_7FQxjQJlyfpI")
+client.run(TOKEN)
