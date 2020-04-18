@@ -53,10 +53,19 @@ class Music(commands.Cog):
             print("Previous song failed to delete. (Being Played)")
             await ctx.send("ERROR: Music is currently being played.")
 
-
         await ctx.send("Getting Music Ready!")
 
         voice = get(self.client.voice_clients, guild=ctx.guild)
+
+        try:
+            if voice and voice.is_playing():
+                print("Replacing current song")
+                voice.stop()
+                await ctx.send("Stopping current song, playing next.")
+        except:
+            print("Replacing the currently playing song failed.")
+            await ctx.send("ERROR: Could not replace the current song.")
+
         ydl_opts = {
             "format": "bestaudio/best",
             "postprocessors": [{
