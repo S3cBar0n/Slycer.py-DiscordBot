@@ -3,7 +3,7 @@ import datetime
 import random
 from discord.ext import commands
 
-# BEGIN VARIABLES
+# ------------------- Variables -------------------
 dateToday = datetime.date.today()
 
 # Calculates how many days are in the current month
