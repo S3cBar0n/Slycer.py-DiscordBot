@@ -46,7 +46,7 @@ class Music(commands.Cog):
 
         def check_queue():
             Queue_infile = os.path.isdir("./Queue")
-            if Queue_infile is True
+            if Queue_infile is True:
                 DIR = os.path.abspath(os.path.realpath("Queue"))
                 length = len(os.listdir(DIR))
                 still_q = length - 1
@@ -197,7 +197,7 @@ class Music(commands.Cog):
 
 
     # Queue
-queues = {}
+    queues = {}
 
     @commands.command(pass_context=True, aliases=["q"])
     async def queue(self, ctx, url: str):
