@@ -3,20 +3,20 @@ import os
 from TOKEN import TOKEN
 from discord.ext import commands
 
-
 # Prefix for my commands
-client = commands.Bot(command_prefix = "!", help_command=None)
+client = commands.Bot(command_prefix="!", help_command=None)
 
 
 # Loads our cogs library
 @client.command()
 async def load(ctx, extension):
     client.load_extension(f"cogs.{extension}")
+
+
 # Unloads our cogs library
 @client.command()
 async def unload(ctx, extension):
     client.unload_extension(f"cogs.{extension}")
-
 
 
 # Searches for .py files within the cogs directory on the OS and removes .py so it can be loaded
