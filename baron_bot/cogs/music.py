@@ -55,11 +55,12 @@ class Music(commands.Cog):
 
         voice = get(self.client.voice_clients, guild=ctx.guild)
         # If a song is currently playing, stops and begins loading the requested song
-        if voice and voice.is_playing():
-            print("Replacing current song")
-            voice.stop()
-            await ctx.send("Stopping current song, playing next.")
-        else:
+        try:
+            if voice and voice.is_playing():
+                print("Replacing current song")
+                voice.stop()
+                await ctx.send("Stopping current song, playing next.")
+        except False:
             print("Replacing the currently playing song failed.")
             await ctx.send("ERROR: Could not replace the current song.")
         # Begins downloading the youtube file and converts to MP3
