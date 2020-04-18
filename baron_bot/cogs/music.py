@@ -4,8 +4,6 @@ import youtube_dl
 from discord.ext import commands
 from discord.utils import get
 
-# ------------------- Variables -------------------
-players = {}
 
 # This references the client we created within our bot.py and passes it into the cog
 class Music(commands.Cog):
@@ -108,7 +106,7 @@ class Music(commands.Cog):
             print("Music failed to pause.")
             await ctx.send("Music is not being currently played.")
 
-    # Resume
+    # Resume Command
     @commands.command(pass_context=True, aliases=["r"])
     async def resume(self, ctx):
 
@@ -122,7 +120,7 @@ class Music(commands.Cog):
             print("Music not paused.")
             await ctx.send("Music is not currently paused.")
 
-    # Stop
+    # Stop Command
     @commands.command(pass_context=True, aliases=["s"])
     async def stop(self, ctx):
 
@@ -136,9 +134,7 @@ class Music(commands.Cog):
             print("No Music playing - Music failed to stop.")
             await ctx.send("No music currently playing, failed to stop.")
 
-
-
-
+    # Queue
 
 
 

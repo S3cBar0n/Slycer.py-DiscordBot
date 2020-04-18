@@ -52,7 +52,7 @@ class Commands(commands.Cog):
     async def on_command_completion(self, ctx):
         print(ctx.command.name + " was invoked sucessfully.")
 
-# ------------------- Commands -------------------
+    # ------------------- Commands -------------------
 
     @commands.group(aliases=["helpc"])
     async def helpcmd(self, ctx):
