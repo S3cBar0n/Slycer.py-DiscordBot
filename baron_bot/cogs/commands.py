@@ -4,8 +4,6 @@ import discord
 import random
 from discord.ext import commands
 
-
-
 # BEGIN VARIABLES
 dateToday = datetime.date.today()
 
@@ -26,38 +24,36 @@ dateSentence = " Days until the month ends!"
 dateMonthEnd = dateMonthEndStr + dateSentence
 
 
-
-
+# This references the client we created within our bot.py and passes it into the cog
 class Commands(commands.Cog):
-# This refrences the client we created within our bot.py and passes it into the cog
     def __init__(self, client):
         self.client = client  # this allows us to access the client within our cog
 
-# ------------------- Events -------------------
-# Loads bot, and lets us know when its ready
+    # ------------------- Events -------------------
+    # Loads bot, and lets us know when its ready
     @commands.Cog.listener()
     async def on_ready(self):
         print("Logged in as " + self.client.user.name)
         print(self.client.user.id)
         print("-------")
 
-# When a known command fails, throws error
+    # When a known command fails, throws error
     @commands.Cog.listener()
     async def on_command_error(self, ctx, error):
         await ctx.send(ctx.command.name + " didn't work! Give it another try.")
         await ctx.send(error)
 
-# Event for monitoring command usage
+    # Event for monitoring command usage
     @commands.Cog.listener()
     async def on_command(self, ctx):
         print(ctx.command.name + " was invoked.")
 
-# Event for monitoring sucessful command usage
+    # Event for monitoring sucessful command usage
     @commands.Cog.listener()
     async def on_command_completion(self, ctx):
         print(ctx.command.name + " was invoked sucessfully.")
 
-# ------------------- Commands -------------------
+    # ------------------- Commands -------------------
 
     @commands.group(aliases=["help"])
     async def helpcmd(self, ctx):
@@ -65,7 +61,7 @@ class Commands(commands.Cog):
 
     @commands.command(aliases=['about'])
     async def aboutbot(self, ctx):
-        await ctx.send("I am a clever Discord Bot that was put together as part of a school project by my creator @Baron!")
+        await ctx.send("I am a clever Discord Bot that was put together as part of a project by my creator Baron!")
 
     @commands.command()
     async def addrole(self, ctx, arg1):
@@ -87,12 +83,7 @@ class Commands(commands.Cog):
     async def summer(self, ctx):
         await ctx.send(dateSummerStart)
 
-
-
-
-
-
-# Commands that contain a list of responses
+    # Commands that contain a list of responses
     @commands.command()
     async def roll(self, ctx):
         responses = ["1",
@@ -106,34 +97,26 @@ class Commands(commands.Cog):
     @commands.command(aliases=['8ball'])
     async def _8ball(self, ctx, *, question):
         responses = ["It is certain.",
-              "It is decidedly so.",
-               "Without a doubt.",
-               "Yes - definitely.",
-               "You may rely on it.",
-               "As I see it, yes.",
-               "Most likely.",
-               "Outlook good.",
-               "Yes.",
-               "Signs point to yes.",
-               "Reply hazy, try again.",
-               "Ask again later.",
-               "Better not tell you now.",
-               "Cannot predict now.",
-               "Concentrate and ask again.",
-               "Don't count on it.",
-               "My reply is no.",
-               "My sources say no.",
-               "Outlook not so good.",
-               "Very doubtful."]
+                     "It is decidedly so.",
+                     "Without a doubt.",
+                     "Yes - definitely.",
+                     "You may rely on it.",
+                     "As I see it, yes.",
+                     "Most likely.",
+                     "Outlook good.",
+                     "Yes.",
+                     "Signs point to yes.",
+                     "Reply hazy, try again.",
+                     "Ask again later.",
+                     "Better not tell you now.",
+                     "Cannot predict now.",
+                     "Concentrate and ask again.",
+                     "Don't count on it.",
+                     "My reply is no.",
+                     "My sources say no.",
+                     "Outlook not so good.",
+                     "Very doubtful."]
         await ctx.send(f"Question: {question}\nAnswer: {random.choice(responses)}")
-
-
-
-
-
-
-
-
 
 
 # This function allows us to connect this cog to our bot

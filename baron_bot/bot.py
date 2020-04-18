@@ -19,7 +19,7 @@ async def unload(ctx, extension):
 
 
 
-# Searches for .py files within the cogs directory on the OS and removes .py when loaded
+# Searches for .py files within the cogs directory on the OS and removes .py so it can be loaded
 for filename in os.listdir("./cogs"):
     if filename.endswith(".py"):
         client.load_extension(f"cogs.{filename[:-3]}")
