@@ -85,10 +85,47 @@ class Music(commands.Cog):
         await ctx.send(f"Playing: {nname}")
         print("Playing\n")
 
+    # Pause command
+    @commands.command(pass_context=True, aliases=["pa", "pau"])
+    async def pause(self, ctx):
 
+        voice = get(self.client.voice_clients, guild=ctx.guild)
 
+        if voice and voice.is_playing():
+            print("Music paused")
+            voice.pause()
+            await ctx.send("Music has been paused.")
+        else:
+            print("Music failed to pause.")
+            await ctx.send("Music is not being currently played.")
 
+    # Resume
+    @commands.command(pass_context=True, aliases=["r"])
+    async def resume(self, ctx):
 
+        voice = get(self.client.voice_clients, guild=ctx.guild)
+
+        if voice and voice.is_paused():
+            print("Music has been resumed")
+            voice.resume()
+            await ctx.send("Music has resumed.")
+        else:
+            print("Music not paused.")
+            await ctx.send("Music is not currently paused.")
+
+    # Stop
+    @commands.command(pass_context=True, aliases=["s"])
+    async def stop(self, ctx):
+
+        voice = get(self.client.voice_clients, guild=ctx.guild)
+
+        if voice and voice.is_playing():
+            print("Music stopped.")
+            voice.stop()
+            await ctx.send("Music has been stopped.")
+        else:
+            print("No Music playing - Music failed to stop.")
+            await ctx.send("No music currently playing, failed to stop.")
 
 
 
