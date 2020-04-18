@@ -50,20 +50,6 @@ class Music(commands.Cog):
         except PermissionError:
             print("Previous song failed to delete. (Being Played)")
             await ctx.send("ERROR: Music is currently being played.")
-    # Tests to see if the bot is in a channel currently or not, joins if not.
-        try:
-            channel = ctx.message.author.voice.channel
-            voice = get(self.client.voice_clients, guild=ctx.guild)
-            if not voice and voice.is_connected():
-                await voice.move_to(channel)
-            else:
-                voice = await channel.connect()
-                print(f"DJ Baron Bot has connected to {channel}.\n")
-            await ctx.send(f"DJ Baron Bot has joined {channel}.")
-        except:
-            print("Could not Join the bot to the channel - play command")
-            await ctx.send("Please use the join command before playing music.")
-
 
         await ctx.send("Getting Music Ready!")
 
