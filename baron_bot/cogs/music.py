@@ -223,9 +223,8 @@ class Music(commands.Cog):
 
         with youtube_dl.YoutubeDL(ydl_opts) as ydl:
             print("Downloading audio now\n")
+            await ctx.send("Adding song " + str(q_num) + " to the queue.")
             ydl.download([url])
-        await ctx.send("Adding song " + str(q_num) + " to the queue.")
-
         print("Song has been added to the queue.\n")
 
 
