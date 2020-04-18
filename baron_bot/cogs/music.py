@@ -60,7 +60,7 @@ class Music(commands.Cog):
                     queues.clear()
                     return
                 main_location = os.path.dirname(os.path.realpath(__file__))
-                song_path = os.path.abspath(os.path.realpath("./Queue") + "\\" + first_file)
+                song_path = os.path.abspath(os.path.realpath("./Queue") + "/" + first_file)
                 if length != 0:
                     print("Preparing next song.\n")
                     print(f"Songs still in queue: {still_q}")
@@ -190,21 +190,6 @@ class Music(commands.Cog):
             print("No Music playing - Music failed to stop.")
             await ctx.send("No music currently playing, failed to stop.")
 
-    # Skip Command
-    @commands.command(pass_context=True, aliases=["s"])
-    async def stop(self, ctx):
-
-        voice = get(self.client.voice_clients, guild=ctx.guild)
-
-        queues.clear()
-
-        if voice and voice.is_playing():
-            print("Music stopped.")
-            voice.stop()
-            await ctx.send("Music has been stopped.")
-        else:
-            print("No Music playing - Music failed to stop.")
-            await ctx.send("No music currently playing, failed to stop.")
 
     # Queue
     @commands.command(pass_context=True, aliases=["q"])
@@ -223,7 +208,7 @@ class Music(commands.Cog):
                 add_queue = False
                 queues[q_num] = q_num
 
-        queue_path = os.path.abspath(os.path.realpath("./Queue") + f"\song{q_num}.%(ext)s")
+        queue_path = os.path.abspath(os.path.realpath("./Queue") + f"/song{q_num}.%(ext)s")
 
         # Begins downloading the youtube file and converts to MP3
         ydl_opts = {
