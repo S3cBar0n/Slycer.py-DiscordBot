@@ -60,7 +60,7 @@ class Music(commands.Cog):
                     queues.clear()
                     return
                 main_location = os.path.dirname(os.path.realpath("/home/ubuntu/TESTING/DiscordBot/baron_bot/Queue"))
-                song_path = os.path.abspath(os.path.realpath("/home/ubuntu/TESTING/DiscordBot/baron_bot/Queue/") + first_file)
+                song_path = os.path.abspath(os.path.realpath("/home/ubuntu/TESTING/DiscordBot/baron_bot/Queue") + "/" + first_file)
                 if length != 0:
                     print("Preparing next song.\n")
                     print(f"Songs still in queue: {still_q}")
