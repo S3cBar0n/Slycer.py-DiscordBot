@@ -1,5 +1,6 @@
 import discord
 import os
+import shutil
 import youtube_dl
 from discord.ext import commands
 from discord.utils import get
@@ -42,27 +43,83 @@ class Music(commands.Cog):
     # Play command for the Music Bot
     @commands.command(pass_context=True, aliases=["p"])
     async def play(self, ctx, url: str):
+
+        def check_queue():
+            Queue_infile = os.path.isdir("./Queue")
+            if Queue_infile is True
+                DIR = os.path.abspath(os.path.realpath("Queue"))
+                length = len(os.listdir(DIR))
+                still_q = length - 1
+                try:
+                    first_file = os.listdir(DIR)[0]
+                except:
+                    print("No more songs in the queue.\n")
+                    queues.clear()
+                    return
+                main_location = os.path.dirname(os.path.realpath(__file__))
+                song_path = os.path.abspath(os.path.realpath("Queue") + "\\" + first_file)
+                if length != 0:
+                    print("Preparing next song.\n")
+                    print(f"Songs still in queue: {still_q}")
+                    song_there = os.path.isfile("song.mp3")
+                    if song_there:
+                        os.remove("song.mp3")
+                    shutil.move(song_path, main_location)
+                    for file in os.listdir("./"):
+                        if file.endswith(".mp3"):
+                            os.rename(file, "song.mp3")
+
+                    voice.play(discord.FFmpegPCMAudio("song.mp3"), after=lambda e: check_queue())
+                    voice.source = discord.PCMVolumeTransformer(voice.source)
+                    voice.source.volume = 0.08
+
+                else:
+                    queues.clear()
+                    return
+            else:
+                queues.clear()
+                print("No songs were queued before the ending of the last song.\n")
+
+
+
+
+
         song_there = os.path.isfile("song.mp3")
         try:
             if song_there:
                 os.remove("song.mp3")
+                queues.clear()
                 print("Previous song has been removed.")
         except PermissionError:
             print("Previous song failed to delete. (Being Played)")
             await ctx.send("ERROR: Music is currently being played.")
+            return
+
+        Queue_infile = os.path.isdir("./Queue")
+        try:
+            Queue_folder = "./Queue"
+            if Queue_infile is True:
+                print("Removed old Queue folder")
+                shutil.rmtree(Queue_folder)
+        except:
+            print("No old Queue folder detected")
+
+
 
         await ctx.send("Getting Music Ready!")
 
         voice = get(self.client.voice_clients, guild=ctx.guild)
+
         # If a song is currently playing, stops and begins loading the requested song
-        try:
-            if voice and voice.is_playing():
-                print("Replacing current song")
-                voice.stop()
-                await ctx.send("Stopping current song, playing next.")
-        except False:
-            print("Replacing the currently playing song failed.")
-            await ctx.send("ERROR: Could not replace the current song.")
+#        try:
+#            if voice and voice.is_playing():
+#                print("Replacing current song")
+#                voice.stop()
+#                await ctx.send("Stopping current song, playing next.")
+#        except:
+#            print("Replacing the currently playing song failed.")
+#            await ctx.send("ERROR: Could not replace the current song.")
+
         # Begins downloading the youtube file and converts to MP3
         ydl_opts = {
             "format": "bestaudio/best",
@@ -84,7 +141,7 @@ class Music(commands.Cog):
                 print(f"Renamed File: {file}\n")
                 os.rename(file, "song.mp3")
 
-        voice.play(discord.FFmpegPCMAudio("song.mp3"), after=lambda e: print(f"{name} has finished playing"))
+        voice.play(discord.FFmpegPCMAudio("song.mp3"), after=lambda e: check_queue())
         voice.source = discord.PCMVolumeTransformer(voice.source)
         voice.source.volume = 0.08
 
@@ -126,6 +183,8 @@ class Music(commands.Cog):
 
         voice = get(self.client.voice_clients, guild=ctx.guild)
 
+        queues.clear()
+
         if voice and voice.is_playing():
             print("Music stopped.")
             voice.stop()
@@ -134,7 +193,68 @@ class Music(commands.Cog):
             print("No Music playing - Music failed to stop.")
             await ctx.send("No music currently playing, failed to stop.")
 
+
+
+
     # Queue
+queues = {}
+
+    @commands.command(pass_context=True, aliases=["q"])
+    async def queue(self, ctx, url: str):
+        Queue_infile = os.path.isdir("./Queue")
+        if Queue_infile is False:
+            os.mkdir("Queue")
+        DIR = os.path.abspath(os.path.realpath("Queue"))
+        q_num = len(os.listdir(DIR))
+        q_num += 1
+        add_queue = True
+        while add_queue:
+            if q_num in queues:
+                q_num += 1
+            else:
+                add_queue = False
+                queues[q_num] = q_num
+
+        queue_path = os.path.abspath(os.path.realpath("Queue") + f"\song{q_num}.%(ext)s")
+
+
+    # Begins downloading the youtube file and converts to MP3
+        ydl_opts = {
+            "format": "bestaudio/best",
+            "outtmpl": queue_path,
+            "postprocessors": [{
+                "key": "FFmpegExtractAudio",
+                "preferredcodec": "mp3",
+                "preferredquality": "192",
+
+            }],
+        }
+
+        with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+            print("Downloading audio now\n")
+            ydl.download([url])
+        await ctx.send("Adding song " + str(q_num) + " to the queue.")
+
+        print("Song has been added to the queue.\n")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # This function allows us to connect this cog to our bot
