@@ -44,7 +44,7 @@ class Music(commands.Cog):
             await ctx.send(f"Are you sure I am in {channel}?")
 
     # Play command for the Music Bot
-    @commands.command(pass_context=True, aliases=["p"])
+    @commands.command(pass_context=True, aliases=["pl"])
     async def play(self, ctx, url: str):
 
         def check_queue():
