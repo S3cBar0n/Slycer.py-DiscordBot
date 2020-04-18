@@ -13,17 +13,17 @@ dateToday = datetime.date.today()
 dateDaysinMonth = calendar.monthrange(dateToday.year, dateToday.month)[1]
 
 # Variables to Calculate days until Summer Vacation
-dateSchool = datetime.date(2020, 5, 15) - dateToday
-dateSchoolStr = str(dateSchool)
-dateSummer = dateSchoolStr.strip("0: ,")
-dateSummerSentance = " until summer!"
-dateSchoolEnd = dateSummer + dateSummerSentance
+dateSchoolEnd = datetime.date(2020, 5, 15) - dateToday
+dateSchoolEndStr = str(dateSchoolEnd)
+dateSummer = dateSchoolEndStr.strip("0: ,")
+dateSummerSentence = " until summer!"
+dateSummerStart = dateSummer + dateSummerSentence
 
 # Variables to Calculate how many days until the end of the month
 dateDaysUntilMonthEnd = dateDaysinMonth - dateToday.day + 1
 dateMonthEndStr = str(dateDaysUntilMonthEnd)
-dateSentance = " Days until the month ends!"
-dateMonthEnd = dateMonthEndStr + dateSentance
+dateSentence = " Days until the month ends!"
+dateMonthEnd = dateMonthEndStr + dateSentence
 
 
 
@@ -85,7 +85,7 @@ class Commands(commands.Cog):
 
     @commands.command()
     async def summer(self, ctx):
-        await ctx.send(dateSchoolEnd)
+        await ctx.send(dateSummerStart)
 
 
 
