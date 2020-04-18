@@ -9,10 +9,10 @@ class Music(commands.Cog):
     def __init__(self, client):
         self.client = client  # this allows us to access the client within our cog
 
-#    @commands.command(pass_context=True)
-#    async def join(self, ctx):
-#        channel = ctx.message.author.voice.voice_channel
-#        await self.client.join_voice_channel(channel)
+    @commands.command(pass_context=True)
+    async def join(self, ctx):
+        channel = ctx.message.author.voice.voice_channel
+        await self.client.join_voice_channel(channel)
 
     @commands.command(pass_context=True)
     async def leave(self, ctx):
@@ -23,8 +23,6 @@ class Music(commands.Cog):
 
     @commands.command(pass_context=True)
     async def play(self, ctx, url):
-        channel = ctx.message.author.voice.voice_channel
-        await self.client.join_voice_channel(channel)
         server = self.ctx.message.server
         voice_client = self.client.voice_client_in(server)
         player = await voice_client.create_ytdl_player(url)
