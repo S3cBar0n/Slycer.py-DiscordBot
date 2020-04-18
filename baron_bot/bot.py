@@ -1,4 +1,3 @@
-import discord
 import os
 from TOKEN import TOKEN
 from discord.ext import commands
