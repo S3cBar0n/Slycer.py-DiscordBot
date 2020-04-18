@@ -8,6 +8,7 @@ from discord.utils import get
 # ------------------- Variables -------------------
 queues = {}
 
+
 # This references the client we created within our bot.py and passes it into the cog
 class Music(commands.Cog):
     def __init__(self, client):
@@ -174,6 +175,22 @@ class Music(commands.Cog):
             await ctx.send("Music is not currently paused.")
 
     # Stop Command
+    @commands.command(pass_context=True, aliases=["s"])
+    async def stop(self, ctx):
+
+        voice = get(self.client.voice_clients, guild=ctx.guild)
+
+        queues.clear()
+
+        if voice and voice.is_playing():
+            print("Music stopped.")
+            voice.stop()
+            await ctx.send("Music has been stopped.")
+        else:
+            print("No Music playing - Music failed to stop.")
+            await ctx.send("No music currently playing, failed to stop.")
+
+    # Skip Command
     @commands.command(pass_context=True, aliases=["s"])
     async def stop(self, ctx):
 
