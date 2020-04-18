@@ -5,6 +5,8 @@ import youtube_dl
 from discord.ext import commands
 from discord.utils import get
 
+# ------------------- Variables -------------------
+queues = {}
 
 # This references the client we created within our bot.py and passes it into the cog
 class Music(commands.Cog):
@@ -80,10 +82,6 @@ class Music(commands.Cog):
                 queues.clear()
                 print("No songs were queued before the ending of the last song.\n")
 
-
-
-
-
         song_there = os.path.isfile("song.mp3")
         try:
             if song_there:
@@ -104,21 +102,19 @@ class Music(commands.Cog):
         except:
             print("No old Queue folder detected")
 
-
-
         await ctx.send("Getting Music Ready!")
 
         voice = get(self.client.voice_clients, guild=ctx.guild)
 
         # If a song is currently playing, stops and begins loading the requested song
-#        try:
-#            if voice and voice.is_playing():
-#                print("Replacing current song")
-#                voice.stop()
-#                await ctx.send("Stopping current song, playing next.")
-#        except:
-#            print("Replacing the currently playing song failed.")
-#            await ctx.send("ERROR: Could not replace the current song.")
+        #        try:
+        #            if voice and voice.is_playing():
+        #                print("Replacing current song")
+        #                voice.stop()
+        #                await ctx.send("Stopping current song, playing next.")
+        #        except:
+        #            print("Replacing the currently playing song failed.")
+        #            await ctx.send("ERROR: Could not replace the current song.")
 
         # Begins downloading the youtube file and converts to MP3
         ydl_opts = {
@@ -193,11 +189,7 @@ class Music(commands.Cog):
             print("No Music playing - Music failed to stop.")
             await ctx.send("No music currently playing, failed to stop.")
 
-
-
-
     # Queue
-    queues = {}
 
     @commands.command(pass_context=True, aliases=["q"])
     async def queue(self, ctx, url: str):
@@ -217,8 +209,7 @@ class Music(commands.Cog):
 
         queue_path = os.path.abspath(os.path.realpath("Queue") + f"\song{q_num}.%(ext)s")
 
-
-    # Begins downloading the youtube file and converts to MP3
+        # Begins downloading the youtube file and converts to MP3
         ydl_opts = {
             "format": "bestaudio/best",
             "outtmpl": queue_path,
@@ -236,25 +227,6 @@ class Music(commands.Cog):
         await ctx.send("Adding song " + str(q_num) + " to the queue.")
 
         print("Song has been added to the queue.\n")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 # This function allows us to connect this cog to our bot
