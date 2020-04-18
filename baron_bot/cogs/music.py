@@ -59,7 +59,7 @@ class Music(commands.Cog):
                     print("No more songs in the queue.\n")
                     queues.clear()
                     return
-                main_location = os.path.dirname(os.path.realpath("/home/ubuntu/TESTING/DiscordBot/baron_bot"))
+                main_location = os.path.dirname(os.path.realpath("/home/ubuntu/TESTING/DiscordBot/baron_bot/"))
                 song_path = os.path.abspath(os.path.realpath("/home/ubuntu/TESTING/DiscordBot/baron_bot/Queue") + "/" + first_file)
                 if length != 0:
                     print("Preparing next song.\n")
@@ -207,7 +207,7 @@ class Music(commands.Cog):
                 add_queue = False
                 queues[q_num] = q_num
 
-        queue_path = os.path.abspath(os.path.realpath("Queue") + f"/song{q_num}.%(ext)s")
+        queue_path = os.path.abspath(os.path.realpath("./Queue") + f"/song{q_num}.%(ext)s")
 
         # Begins downloading the youtube file and converts to MP3
         ydl_opts = {
