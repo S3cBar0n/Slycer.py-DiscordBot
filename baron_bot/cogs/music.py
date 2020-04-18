@@ -11,14 +11,12 @@ class Music(commands.Cog):
 
     @commands.command(pass_context=True)
     async def join(self, ctx):
-        channel = ctx.message.author.voice.voice_channel
-        await self.client.join_voice_channel(channel)
+        channel = ctx.author.voice.channel
+        await channel.connect()
 
     @commands.command(pass_context=True)
     async def leave(self, ctx):
-        server = ctx.message.server
-        voice_client = self.client.voice_client_in(server)
-        await voice_client.disconnect()
+        await ctx.voice_client.disconnect()
 
 
     @commands.command(pass_context=True)
