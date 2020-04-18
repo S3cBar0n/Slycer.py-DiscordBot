@@ -54,7 +54,7 @@ class Commands(commands.Cog):
 
     # ------------------- Commands -------------------
 
-    @commands.group(aliases=["help"])
+    @commands.group(aliases=["helpc"])
     async def helpcmd(self, ctx):
         await ctx.send("My Current Commands: 8ball, about, addrole, dumb, nextmonth, ping, summer")
 
