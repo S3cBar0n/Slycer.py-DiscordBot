@@ -47,7 +47,7 @@ class Commands(commands.Cog):
     async def on_command(self, ctx):
         print(ctx.command.name + " was invoked.")
 
-    # Event for monitoring sucessful command usage
+    # Event for monitoring successful command usage
     @commands.Cog.listener()
     async def on_command_completion(self, ctx):
         print(ctx.command.name + " was invoked sucessfully.")
