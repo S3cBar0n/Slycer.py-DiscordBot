@@ -59,7 +59,7 @@ class Music(commands.Cog):
                     print("No more songs in the queue.\n")
                     queues.clear()
                     return
-                main_location = os.path.dirname(os.path.realpath("./"))
+                main_location = os.path.dirname(os.path.realpath("/baron_bot"))
                 song_path = os.path.abspath(os.path.realpath("Queue") + "/" + first_file)
                 if length != 0:
                     print("Preparing next song.\n")
