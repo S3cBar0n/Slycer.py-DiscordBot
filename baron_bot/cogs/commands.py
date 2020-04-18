@@ -13,7 +13,7 @@ dateToday = datetime.date.today()
 dateDaysinMonth = calendar.monthrange(dateToday.year, dateToday.month)[1]
 
 # Variables to Calculate days until Summer Vacation
-dateSchool = datetime.date(2020, 5, 15) - datetime.date.today()
+dateSchool = datetime.date(2020, 5, 15) - dateToday
 dateSchoolStr = str(dateSchool)
 dateSummer = dateSchoolStr.strip("0: ,")
 dateSummerSentance = " until summer!"
@@ -33,26 +33,47 @@ class Commands(commands.Cog):
     def __init__(self, client):
         self.client = client  # this allows us to access the client within our cog
 
-# Events
+# ------------------- Events -------------------
+# Loads bot, and lets us know when its ready
     @commands.Cog.listener()
     async def on_ready(self):
         print("Logged in as " + self.client.user.name)
         print(self.client.user.id)
         print("-------")
 
+# When a known command fails, throws error
+    @commands.Cog.listener()
+    async def on_command_error(self, ctx, error):
+        await ctx.send(ctx.command.name + " didn't work! Give it another try.")
+        await ctx.send(error)
 
-# Commands
-    @commands.command()
+# Event for monitoring command usage
+    @commands.Cog.listener()
+    async def on_command(self, ctx):
+        print(ctx.command.name + " was invoked.")
+
+# Event for monitoring sucessful command usage
+    @commands.Cog.listener()
+    async def on_command_completion(self, ctx):
+        print(ctx.command.name + " was invoked sucessfully.")
+
+# ------------------- Commands -------------------
+
+    @commands.group(aliases=["help"])
+    async def helpcmd(self, ctx):
+        await ctx.send("My Current Commands: 8ball, about, addrole, dumb, nextmonth, ping, summer")
+
+    @commands.command(aliases=['about'])
     async def aboutbot(self, ctx):
         await ctx.send("I am a clever Discord Bot that was put together as part of a school project by my creator @Baron!")
 
     @commands.command()
-    async def dumb(self, ctx):
-        await ctx.send("I am a dumb robot!")
+    async def addrole(self, ctx, arg1):
+        print(arg1)
 
     @commands.command()
-    async def summer(self, ctx):
-        await ctx.send(dateSchoolEnd)
+    async def dumb(self, ctx):
+        await ctx.send("I am a dumb robot!")
 
     @commands.command()
     async def nextmonth(self, ctx):
@@ -61,6 +82,26 @@ class Commands(commands.Cog):
     @commands.command()
     async def ping(self, ctx):
         await ctx.send(f'Pong! {round(self.client.latency * 1000)}ms')
+
+    @commands.command()
+    async def summer(self, ctx):
+        await ctx.send(dateSchoolEnd)
+
+
+
+
+
+
+# Commands that contain a list of responses
+    @commands.command()
+    async def roll(self, ctx):
+        responses = ["1",
+                     "2",
+                     "3",
+                     "4",
+                     "5",
+                     "6"]
+        await ctx.send(random.choice(responses))
 
     @commands.command(aliases=['8ball'])
     async def _8ball(self, ctx, *, question):
@@ -83,7 +124,7 @@ class Commands(commands.Cog):
                "My reply is no.",
                "My sources say no.",
                "Outlook not so good.",
-               "Very doubtful.",]
+               "Very doubtful."]
         await ctx.send(f"Question: {question}\nAnswer: {random.choice(responses)}")
 
 
