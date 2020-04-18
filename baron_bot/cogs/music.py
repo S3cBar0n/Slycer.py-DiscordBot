@@ -35,7 +35,7 @@ class Music(commands.Cog):
 
         if voice and voice.is_connected():
             await voice.disconnect()
-            print(f"DJ Baron Bot has left {channel}".)
+            print(f"DJ Baron Bot has left {channel}.")
             await ctx.send(f"DJ Baron Bot has left {channel}.")
         else:
             print(f"DJ Baron Bot could not leave {channel}.")
