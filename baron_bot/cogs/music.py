@@ -50,7 +50,7 @@ class Music(commands.Cog):
         def check_queue():
             Queue_infile = os.path.isdir("./Queue")
             if Queue_infile is True:
-                DIR = os.path.abspath(os.path.realpath("./Queue"))
+                DIR = os.path.abspath(os.path.realpath("Queue"))
                 length = len(os.listdir(DIR))
                 still_q = length - 1
                 try:
@@ -60,7 +60,7 @@ class Music(commands.Cog):
                     queues.clear()
                     return
                 main_location = os.path.dirname(os.path.realpath(__file__))
-                song_path = os.path.abspath(os.path.realpath("./Queue") + "/" + first_file)
+                song_path = os.path.abspath(os.path.realpath("Queue") + "\\" + first_file)
                 if length != 0:
                     print("Preparing next song.\n")
                     print(f"Songs still in queue: {still_q}")
@@ -190,14 +190,13 @@ class Music(commands.Cog):
             print("No Music playing - Music failed to stop.")
             await ctx.send("No music currently playing, failed to stop.")
 
-
     # Queue
     @commands.command(pass_context=True, aliases=["q"])
     async def queue(self, ctx, url: str):
         Queue_infile = os.path.isdir("./Queue")
         if Queue_infile is False:
             os.mkdir("Queue")
-        DIR = os.path.abspath(os.path.realpath("./Queue"))
+        DIR = os.path.abspath(os.path.realpath("Queue"))
         q_num = len(os.listdir(DIR))
         q_num += 1
         add_queue = True
@@ -208,7 +207,7 @@ class Music(commands.Cog):
                 add_queue = False
                 queues[q_num] = q_num
 
-        queue_path = os.path.abspath(os.path.realpath("./Queue") + f"/song{q_num}.%(ext)s")
+        queue_path = os.path.abspath(os.path.realpath("Queue") + f"\song{q_num}.%(ext)s")
 
         # Begins downloading the youtube file and converts to MP3
         ydl_opts = {
