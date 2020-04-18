@@ -52,38 +52,38 @@ class Music(commands.Cog):
         except PermissionError:
             print("Previous song failed to delete. (Being Played)")
             await ctx.send("ERROR: Music is currently being played.")
-            return
 
-    await ctx.send("Getting Music Ready!")
 
-    voice = get(self.client.voice_client, guild=ctx.guild)
-    ydl_opts = {
-        "format": "bestaudio/best",
-        "postprocessors": [{
-            "key": "FFmpegExtractAudio",
-            "preferredcodec": "mp3",
-            "preferredquality": "192",
+        await ctx.send("Getting Music Ready!")
 
-        }],
-    }
+        voice = get(self.client.voice_client, guild=ctx.guild)
+        ydl_opts = {
+            "format": "bestaudio/best",
+            "postprocessors": [{
+                "key": "FFmpegExtractAudio",
+                "preferredcodec": "mp3",
+                "preferredquality": "192",
 
-    with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-        print("Downloading audio now\n")
-        ydl.download([url])
+            }],
+        }
 
-    for file in os.listdir("./"):
-        if file.endswith(".mp3"):
-            name = file
-            print(f"Renamed File: {file}\n")
-            os.rename(file, "song.mp3")
+        with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+            print("Downloading audio now\n")
+            ydl.download([url])
 
-    voice.play(discord.FFmpegPCMAudio("song.mp3"), after=lambda e: print(f"{name} has finished playing"))
-    voice.source = discord.PCMVolumeTransformer(voice.source)
-    voice.source.volume = 0.07
+        for file in os.listdir("./"):
+            if file.endswith(".mp3"):
+                name = file
+                print(f"Renamed File: {file}\n")
+                os.rename(file, "song.mp3")
 
-    nname = name.rslpit("-", 2)
-    await ctx.send(f"Playing: {nname}")
-    print("Playing\n")
+        voice.play(discord.FFmpegPCMAudio("song.mp3"), after=lambda e: print(f"{name} has finished playing"))
+        voice.source = discord.PCMVolumeTransformer(voice.source)
+        voice.source.volume = 0.07
+
+        nname = name.rslpit("-", 2)
+        await ctx.send(f"Playing: {nname}")
+        print("Playing\n")
 
 
 
