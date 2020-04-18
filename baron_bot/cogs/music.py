@@ -81,7 +81,7 @@ class Music(commands.Cog):
         voice.source = discord.PCMVolumeTransformer(voice.source)
         voice.source.volume = 0.07
 
-        nname = name.rslpit("-", 2)
+        nname = name.rsplit("-", 2)
         await ctx.send(f"Playing: {nname}")
         print("Playing\n")
 
