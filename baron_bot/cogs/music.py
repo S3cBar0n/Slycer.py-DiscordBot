@@ -233,11 +233,10 @@ class Music(commands.Cog):
     # Queue
     @commands.command(pass_context=True, aliases=["q"])
     async def queue(self, ctx, *url: str):
-        # This is for when users !q instead of playing a song before adding to the queue
+
         voice = get(self.client.voice_clients, guild=ctx.guild)
 
         if voice and voice.is_connected():
-
             Queue_infile = os.path.isdir("./Queue")
             if Queue_infile is False:
                 os.mkdir("Queue")
@@ -280,36 +279,6 @@ class Music(commands.Cog):
 
             await ctx.send("Adding song " + str(q_num) + " to the queue.")
             print("Song has been added to the queue.\n")
-
-            # This def is to avoid no song playing if someone adds a song to the queue before using the play command
-
-            if voice.play(after=lambda):
-                def check_queue():
-                    Queue_infile = os.path.isdir("./Queue")
-                    if Queue_infile is True:
-                        DIR = os.path.abspath(os.path.realpath("Queue"))
-                        length = len(os.listdir(DIR))
-                        still_q = length - 1
-                        try:
-                            first_file = os.listdir(DIR)[0]
-                        except:
-                            print("No more songs in the queue.\n")
-                            queues.clear()
-                            return
-                        main_location = os.path.dirname(os.path.realpath("./Queue"))
-                        song_path = os.path.abspath(os.path.realpath("./Queue") + "/" + first_file)
-                        if length != 0:
-                            print("Preparing next song.\n")
-                            print(f"Songs still in queue: {still_q}")
-                            song_there = os.path.isfile("song.mp3")
-                            if song_there:
-                                os.remove("song.mp3")
-                            shutil.move(song_path, main_location)
-                            for file in os.listdir("./"):
-                                if file.endswith(".mp3"):
-                                    os.rename(file, "song.mp3")
-
-                check_queue()
 
         else:
             await ctx.send("Please !join me to the voice channel")
