@@ -54,9 +54,9 @@ class Commands(commands.Cog):
 
     # ------------------- Commands -------------------
 
-    @commands.group(aliases=["helpc"])
-    async def helpcmd(self, ctx):
-        await ctx.send("My Current Commands: 8ball, about, addrole, dumb, nextmonth, ping, summer")
+#    @commands.group(aliases=["helpc"])
+#    async def helpcmd(self, ctx):
+#        await ctx.send("My Current Commands: 8ball, about, addrole, dumb, Music, nextmonth, ping, summer")
 
     @commands.command(aliases=['about'])
     async def aboutbot(self, ctx):
@@ -85,13 +85,7 @@ class Commands(commands.Cog):
     # Commands that contain a list of responses
     @commands.command()
     async def roll(self, ctx):
-        responses = ["1",
-                     "2",
-                     "3",
-                     "4",
-                     "5",
-                     "6"]
-        await ctx.send(random.choice(responses))
+        await ctx.send(random.randint(1, 6))
 
     @commands.command(aliases=['8ball'])
     async def _8ball(self, ctx, *, question):

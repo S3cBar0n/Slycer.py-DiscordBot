@@ -3,7 +3,7 @@ from TOKEN import TOKEN
 from discord.ext import commands
 
 # Prefix for my commands
-client = commands.Bot(command_prefix="!")
+client = commands.Bot(command_prefix="!", help_command=None)
 
 
 # Loads our cogs library

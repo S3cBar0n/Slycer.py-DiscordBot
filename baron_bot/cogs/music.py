@@ -142,8 +142,8 @@ class Music(commands.Cog):
         voice.source = discord.PCMVolumeTransformer(voice.source)
         voice.source.volume = 0.08
 
-        nname = name.rsplit("-", 2)
-        await ctx.send(f"Playing: {nname}")
+        await ctx.send(f"Playing Song")
+
         print("Playing\n")
 
     # Pause command
@@ -182,6 +182,10 @@ class Music(commands.Cog):
 
         queues.clear()
 
+        queue_infile = os.path.isdir("./Queue")
+        if queue_infile is True:
+            shutil.rmtree("./Queue")
+
         if voice and voice.is_playing():
             print("Music stopped.")
             voice.stop()
@@ -189,6 +193,21 @@ class Music(commands.Cog):
         else:
             print("No Music playing - Music failed to stop.")
             await ctx.send("No music currently playing, failed to stop.")
+
+    # Next Command
+    @commands.command(pass_context=True, aliases=["n"])
+    async def next(self, ctx):
+
+        voice = get(self.client.voice_clients, guild=ctx.guild)
+
+        if voice and voice.is_playing():
+            print("Playing next song")
+            voice.stop()
+            await ctx.send("Playing next song")
+        else:
+            print("No Music playing - failed to play next song")
+            await ctx.send("No music currently playing failed")
+
 
     # Queue
     @commands.command(pass_context=True, aliases=["q"])

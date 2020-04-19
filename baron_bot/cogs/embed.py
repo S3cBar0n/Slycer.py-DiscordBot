@@ -27,8 +27,8 @@ class Embed(commands.Cog):
         await ctx.send(embed=embed)
 
     # Embedded Help command
-    @commands.command(pass_context=True)
-    async def help(self, ctx):
+    @commands.command(pass_context=True, aliases=["help"])
+    async def helpcmd(self, ctx):
         author = ctx.message.author
 
         embed_Help = discord.Embed(
