@@ -56,7 +56,8 @@ class Embed(commands.Cog):
                                    "!resume or !r - This resumes a paused song!\n"
                                    "!queue or !q - This command allows you to post a link to play a song and adds it to the next available queue position!\n"
                                    "!next or !n - This plays the next song in the queue!\n"
-                                   "!stop or !s - This stops and removes the current song from playing, as well as clears the current queue!\n")
+                                   "!stop or !s - This stops and removes the current song from playing, as well as clears the current queue!\n"
+                                   "!volume or !v - This command changes the current volume % of the music the bot is playing!")
 
         await author.send(embed=embed_Help)
 

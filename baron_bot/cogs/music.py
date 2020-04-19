@@ -1,9 +1,10 @@
 import discord
 import os
 import shutil
-import youtube_dl
+# import youtube_dl
 from discord.ext import commands
 from discord.utils import get
+from os import system
 
 # ------------------- Variables -------------------
 queues = {}
@@ -22,11 +23,11 @@ class Music(commands.Cog):
         channel = ctx.message.author.voice.channel
         voice = get(self.client.voice_clients, guild=ctx.guild)
 
-        if voice and voice.is_connected():
-            await voice.move_to(channel)
-        else:
-            voice = await channel.connect()
-            print(f"DJ Baron Bot has connected to {channel}.\n")
+        if voice is not None:
+            return await voice.move_to(channel)
+
+        await channel.connect()
+
         await ctx.send(f"DJ Baron Bot has joined {channel}.")
 
     # Leave command for the Music Bot
@@ -45,7 +46,7 @@ class Music(commands.Cog):
 
     # Play command for the Music Bot
     @commands.command(pass_context=True, aliases=["pl"])
-    async def play(self, ctx, url: str):
+    async def play(self, ctx, *url: str):
 
         def check_queue():
             Queue_infile = os.path.isdir("./Queue")
@@ -120,6 +121,7 @@ class Music(commands.Cog):
         # Begins downloading the youtube file and converts to MP3
         ydl_opts = {
             "format": "bestaudio/best",
+            "outtmpl": "./song.mp3",
             "postprocessors": [{
                 "key": "FFmpegExtractAudio",
                 "preferredcodec": "mp3",
@@ -128,15 +130,17 @@ class Music(commands.Cog):
             }],
         }
 
-        with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-            print("Downloading audio now\n")
-            ydl.download([url])
+        song_search = " ".join(url)
 
-        for file in os.listdir("./"):
-            if file.endswith(".mp3"):
-                name = file
-                print(f"Renamed File: {file}\n")
-                os.rename(file, "song.mp3")
+        try:
+            with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+                print("Downloading audio now\n")
+                ydl.download([f"ytsearch1:{song_search}"])
+        except:
+            print(
+                "FALLBACK: youtube_dl does not support this URL, using Spotify (this is normal if Spotify URL is provided)")
+            c_path = os.path.dirname(os.path.realpath(__file__))
+            system("spotdl -ff song -f " + '"' + c_path + '"' + " -s " + song_search)
 
         voice.play(discord.FFmpegPCMAudio("song.mp3"), after=lambda e: check_queue())
         voice.source = discord.PCMVolumeTransformer(voice.source)
@@ -208,10 +212,21 @@ class Music(commands.Cog):
             print("No Music playing - failed to play next song")
             await ctx.send("No music currently playing failed")
 
+    # Volume Command
+    @commands.command(pass_context=True, aliases=["v", "vol"])
+    async def volume(self, ctx, volume: int):
+
+        if ctx.voice_client is None:
+            return await ctx.send("Not connected to voice channel")
+
+        print(volume / 100)
+
+        ctx.voice_client.source.volume = volume / 100
+        await ctx.send(f"Changed volume to {volume}%")
 
     # Queue
     @commands.command(pass_context=True, aliases=["q"])
-    async def queue(self, ctx, url: str):
+    async def queue(self, ctx, *url: str):
         Queue_infile = os.path.isdir("./Queue")
         if Queue_infile is False:
             os.mkdir("Queue")
@@ -240,10 +255,19 @@ class Music(commands.Cog):
             }],
         }
 
-        with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-            print("Downloading audio now\n")
-            await ctx.send("Adding song " + str(q_num) + " to the queue.")
-            ydl.download([url])
+        song_search = " ".join(url)
+
+        try:
+            with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+                print("Downloading audio now\n")
+                ydl.download([f"ytsearch1:{song_search}"])
+        except:
+            print(
+                "FALLBACK: youtube_dl does not support this URL, using Spotify (this is normal if Spotify URL is provided)")
+            q_path = os.path.abspath(os.path.realpath("Queue"))
+            system(f"spotdl -ff song{q_num} -f " + '"' + q_path + '"' + " -s " + song_search)
+
+        await ctx.send("Adding song " + str(q_num) + " to the queue.")
         print("Song has been added to the queue.\n")
 
 
