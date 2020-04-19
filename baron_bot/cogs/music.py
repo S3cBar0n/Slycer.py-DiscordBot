@@ -48,107 +48,113 @@ class Music(commands.Cog):
     @commands.command(pass_context=True, aliases=["pl"])
     async def play(self, ctx, *url: str):
 
-        def check_queue():
-            Queue_infile = os.path.isdir("./Queue")
-            if Queue_infile is True:
-                DIR = os.path.abspath(os.path.realpath("Queue"))
-                length = len(os.listdir(DIR))
-                still_q = length - 1
-                try:
-                    first_file = os.listdir(DIR)[0]
-                except:
-                    print("No more songs in the queue.\n")
-                    queues.clear()
-                    return
-                main_location = os.path.dirname(os.path.realpath("./Queue"))
-                song_path = os.path.abspath(os.path.realpath("./Queue") + "/" + first_file)
-                if length != 0:
-                    print("Preparing next song.\n")
-                    print(f"Songs still in queue: {still_q}")
-                    song_there = os.path.isfile("song.mp3")
-                    if song_there:
-                        os.remove("song.mp3")
-                    shutil.move(song_path, main_location)
-                    for file in os.listdir("./"):
-                        if file.endswith(".mp3"):
-                            os.rename(file, "song.mp3")
-
-                    voice.play(discord.FFmpegPCMAudio("song.mp3"), after=lambda e: check_queue())
-                    voice.source = discord.PCMVolumeTransformer(voice.source)
-                    voice.source.volume = 0.08
-
-                else:
-                    queues.clear()
-                    return
-            else:
-                queues.clear()
-                print("No songs were queued before the ending of the last song.\n")
-
-        song_there = os.path.isfile("song.mp3")
-        try:
-            if song_there:
-                os.remove("song.mp3")
-                queues.clear()
-                print("Previous song has been removed.")
-        except PermissionError:
-            print("Previous song failed to delete. (Being Played)")
-            await ctx.send("ERROR: Music is currently being played.")
-            return
-
-        Queue_infile = os.path.isdir("./Queue")
-        try:
-            Queue_folder = "./Queue"
-            if Queue_infile is True:
-                print("Removed old Queue folder")
-                shutil.rmtree(Queue_folder)
-        except:
-            print("No old Queue folder detected")
-
-        await ctx.send("Getting Music Ready!")
-
         voice = get(self.client.voice_clients, guild=ctx.guild)
 
-        # If a song is currently playing, stops and begins loading the requested song
-        #        try:
-        #            if voice and voice.is_playing():
-        #                print("Replacing current song")
-        #                voice.stop()
-        #                await ctx.send("Stopping current song, playing next.")
-        #        except:
-        #            print("Replacing the currently playing song failed.")
-        #            await ctx.send("ERROR: Could not replace the current song.")
+        if voice and voice.is_connected():
+            def check_queue():
+                Queue_infile = os.path.isdir("./Queue")
+                if Queue_infile is True:
+                    DIR = os.path.abspath(os.path.realpath("Queue"))
+                    length = len(os.listdir(DIR))
+                    still_q = length - 1
+                    try:
+                        first_file = os.listdir(DIR)[0]
+                    except:
+                        print("No more songs in the queue.\n")
+                        queues.clear()
+                        return
+                    main_location = os.path.dirname(os.path.realpath("./Queue"))
+                    song_path = os.path.abspath(os.path.realpath("./Queue") + "/" + first_file)
+                    if length != 0:
+                        print("Preparing next song.\n")
+                        print(f"Songs still in queue: {still_q}")
+                        song_there = os.path.isfile("song.mp3")
+                        if song_there:
+                            os.remove("song.mp3")
+                        shutil.move(song_path, main_location)
+                        for file in os.listdir("./"):
+                            if file.endswith(".mp3"):
+                                os.rename(file, "song.mp3")
 
-        # Begins downloading the youtube file and converts to MP3
-        ydl_opts = {
-            "format": "bestaudio/best",
-            "outtmpl": "./song.mp3",
-            "postprocessors": [{
-                "key": "FFmpegExtractAudio",
-                "preferredcodec": "mp3",
-                "preferredquality": "192",
+                        voice.play(discord.FFmpegPCMAudio("song.mp3"), after=lambda e: check_queue())
+                        voice.source = discord.PCMVolumeTransformer(voice.source)
+                        voice.source.volume = 0.08
 
-            }],
-        }
+                    else:
+                        queues.clear()
+                        return
+                else:
+                    queues.clear()
+                    print("No songs were queued before the ending of the last song.\n")
 
-        song_search = " ".join(url)
+            song_there = os.path.isfile("song.mp3")
+            try:
+                if song_there:
+                    os.remove("song.mp3")
+                    queues.clear()
+                    print("Previous song has been removed.")
+            except PermissionError:
+                print("Previous song failed to delete. (Being Played)")
+                await ctx.send("ERROR: Music is currently being played.")
+                return
 
-        try:
-            with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-                print("Downloading audio now\n")
-                ydl.download([f"ytsearch1:{song_search}"])
-        except:
-            print(
-                "FALLBACK: youtube_dl does not support this URL, using Spotify (this is normal if Spotify URL is provided)")
-            c_path = os.path.dirname(os.path.realpath(__file__))
-            system("spotdl -ff song -f " + '"' + c_path + '"' + " -s " + song_search)
+            Queue_infile = os.path.isdir("./Queue")
+            try:
+                Queue_folder = "./Queue"
+                if Queue_infile is True:
+                    print("Removed old Queue folder")
+                    shutil.rmtree(Queue_folder)
+            except:
+                print("No old Queue folder detected")
 
-        voice.play(discord.FFmpegPCMAudio("song.mp3"), after=lambda e: check_queue())
-        voice.source = discord.PCMVolumeTransformer(voice.source)
-        voice.source.volume = 0.08
+            await ctx.send("Getting Music Ready!")
 
-        await ctx.send(f"Playing Song")
+            voice = get(self.client.voice_clients, guild=ctx.guild)
 
-        print("Playing\n")
+            # If a song is currently playing, stops and begins loading the requested song
+            #        try:
+            #            if voice and voice.is_playing():
+            #                print("Replacing current song")
+            #                voice.stop()
+            #                await ctx.send("Stopping current song, playing next.")
+            #        except:
+            #            print("Replacing the currently playing song failed.")
+            #            await ctx.send("ERROR: Could not replace the current song.")
+
+            # Begins downloading the youtube file and converts to MP3
+            ydl_opts = {
+                "format": "bestaudio/best",
+                "outtmpl": "./song.mp3",
+                "postprocessors": [{
+                    "key": "FFmpegExtractAudio",
+                    "preferredcodec": "mp3",
+                    "preferredquality": "192",
+
+                }],
+            }
+
+            song_search = " ".join(url)
+
+            try:
+                with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+                    print("Downloading audio now\n")
+                    ydl.download([f"ytsearch1:{song_search}"])
+            except:
+                print(
+                    "FALLBACK: youtube_dl does not support this URL, using Spotify (this is normal if Spotify URL is provided)")
+                c_path = os.path.dirname(os.path.realpath(__file__))
+                system("spotdl -ff song -f " + '"' + c_path + '"' + " -s " + song_search)
+
+            voice.play(discord.FFmpegPCMAudio("song.mp3"), after=lambda e: check_queue())
+            voice.source = discord.PCMVolumeTransformer(voice.source)
+            voice.source.volume = 0.08
+
+            await ctx.send(f"Playing Song")
+
+            print("Playing\n")
+
+        else:
+            await ctx.send("Please !join me to the voice channel")
 
     # Pause command
     @commands.command(pass_context=True, aliases=["pa", "pau"])
@@ -199,7 +205,7 @@ class Music(commands.Cog):
             await ctx.send("No music currently playing, failed to stop.")
 
     # Next Command
-    @commands.command(pass_context=True, aliases=["n"])
+    @commands.command(pass_context=True, aliases=["n", "skip", "sk"])
     async def next(self, ctx):
 
         voice = get(self.client.voice_clients, guild=ctx.guild)
@@ -227,48 +233,55 @@ class Music(commands.Cog):
     # Queue
     @commands.command(pass_context=True, aliases=["q"])
     async def queue(self, ctx, *url: str):
-        Queue_infile = os.path.isdir("./Queue")
-        if Queue_infile is False:
-            os.mkdir("Queue")
-        DIR = os.path.abspath(os.path.realpath("Queue"))
-        q_num = len(os.listdir(DIR))
-        q_num += 1
-        add_queue = True
-        while add_queue:
-            if q_num in queues:
-                q_num += 1
-            else:
-                add_queue = False
-                queues[q_num] = q_num
 
-        queue_path = os.path.abspath(os.path.realpath("./Queue") + f"/song{q_num}.%(ext)s")
+        voice = get(self.client.voice_clients, guild=ctx.guild)
 
-        # Begins downloading the youtube file and converts to MP3
-        ydl_opts = {
-            "format": "bestaudio/best",
-            "outtmpl": queue_path,
-            "postprocessors": [{
-                "key": "FFmpegExtractAudio",
-                "preferredcodec": "mp3",
-                "preferredquality": "192",
+        if voice and voice.is_connected():
+            Queue_infile = os.path.isdir("./Queue")
+            if Queue_infile is False:
+                os.mkdir("Queue")
+            DIR = os.path.abspath(os.path.realpath("Queue"))
+            q_num = len(os.listdir(DIR))
+            q_num += 1
+            add_queue = True
+            while add_queue:
+                if q_num in queues:
+                    q_num += 1
+                else:
+                    add_queue = False
+                    queues[q_num] = q_num
 
-            }],
-        }
+            queue_path = os.path.abspath(os.path.realpath("./Queue") + f"/song{q_num}.%(ext)s")
 
-        song_search = " ".join(url)
+            # Begins downloading the youtube file and converts to MP3
+            ydl_opts = {
+                "format": "bestaudio/best",
+                "outtmpl": queue_path,
+                "postprocessors": [{
+                    "key": "FFmpegExtractAudio",
+                    "preferredcodec": "mp3",
+                    "preferredquality": "192",
 
-        try:
-            with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-                print("Downloading audio now\n")
-                ydl.download([f"ytsearch1:{song_search}"])
-        except:
-            print(
-                "FALLBACK: youtube_dl does not support this URL, using Spotify (this is normal if Spotify URL is provided)")
-            q_path = os.path.abspath(os.path.realpath("Queue"))
-            system(f"spotdl -ff song{q_num} -f " + '"' + q_path + '"' + " -s " + song_search)
+                }],
+            }
 
-        await ctx.send("Adding song " + str(q_num) + " to the queue.")
-        print("Song has been added to the queue.\n")
+            song_search = " ".join(url)
+
+            try:
+                with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+                    print("Downloading audio now\n")
+                    ydl.download([f"ytsearch1:{song_search}"])
+            except:
+                print(
+                    "FALLBACK: youtube_dl does not support this URL, using Spotify (this is normal if Spotify URL is provided)")
+                q_path = os.path.abspath(os.path.realpath("Queue"))
+                system(f"spotdl -ff song{q_num} -f " + '"' + q_path + '"' + " -s " + song_search)
+
+            await ctx.send("Adding song " + str(q_num) + " to the queue.")
+            print("Song has been added to the queue.\n")
+
+        else:
+            await ctx.send("Please !join me to the voice channel")
 
 
 # This function allows us to connect this cog to our bot

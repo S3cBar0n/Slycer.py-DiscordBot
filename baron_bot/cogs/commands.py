@@ -7,7 +7,7 @@ from discord.ext import commands
 dateToday = datetime.date.today()
 
 # Calculates how many days are in the current month
-dateDaysinMonth = calendar.monthrange(dateToday.year, dateToday.month)[1]
+dateDaysInMonth = calendar.monthrange(dateToday.year, dateToday.month)[1]
 
 # Variables to Calculate days until Summer Vacation
 dateSchoolEnd = datetime.date(2020, 5, 15) - dateToday
@@ -17,7 +17,7 @@ dateSummerSentence = " until summer!"
 dateSummerStart = dateSummer + dateSummerSentence
 
 # Variables to Calculate how many days until the end of the month
-dateDaysUntilMonthEnd = dateDaysinMonth - dateToday.day + 1
+dateDaysUntilMonthEnd = dateDaysInMonth - dateToday.day + 1
 dateMonthEndStr = str(dateDaysUntilMonthEnd)
 dateSentence = " Days until the month ends!"
 dateMonthEnd = dateMonthEndStr + dateSentence
@@ -28,39 +28,10 @@ class Commands(commands.Cog):
     def __init__(self, client):
         self.client = client  # this allows us to access the client within our cog
 
-    # ------------------- Events -------------------
-    # Loads bot, and lets us know when its ready
-    @commands.Cog.listener()
-    async def on_ready(self):
-        print("Logged in as " + self.client.user.name)
-        print(self.client.user.id)
-        print("-------")
-
-    # When a known command fails, throws error
-    @commands.Cog.listener()
-    async def on_command_error(self, ctx, error):
-        await ctx.send(ctx.command.name + " didn't work! Give it another try.")
-        await ctx.send(error)
-
-    # Event for monitoring command usage
-    @commands.Cog.listener()
-    async def on_command(self, ctx):
-        print(ctx.command.name + " was invoked.")
-
-    # Event for monitoring successful command usage
-    @commands.Cog.listener()
-    async def on_command_completion(self, ctx):
-        print(ctx.command.name + " was invoked sucessfully.")
-
     # ------------------- Commands -------------------
-
-#    @commands.group(aliases=["helpc"])
-#    async def helpcmd(self, ctx):
-#        await ctx.send("My Current Commands: 8ball, about, addrole, dumb, Music, nextmonth, ping, summer")
-
-    @commands.command(aliases=['about'])
+    @commands.command(aliases=["about"])
     async def aboutbot(self, ctx):
-        await ctx.send("I am a clever Discord Bot that was put together as part of a project by my creator Baron!")
+        await ctx.send(f"I am Baron Bot, I was put together as part of a project by my creator Baron!")
 
     @commands.command()
     async def addrole(self, ctx, arg1):
@@ -70,13 +41,13 @@ class Commands(commands.Cog):
     async def dumb(self, ctx):
         await ctx.send("I am a dumb robot!")
 
-    @commands.command()
+    @commands.command(aliases=["month"])
     async def nextmonth(self, ctx):
         await ctx.send(dateMonthEnd)
 
     @commands.command()
     async def ping(self, ctx):
-        await ctx.send(f'Pong! {round(self.client.latency * 1000)}ms')
+        await ctx.send(f"Pong! {round(self.client.latency * 1000)}ms")
 
     @commands.command()
     async def summer(self, ctx):
@@ -87,7 +58,7 @@ class Commands(commands.Cog):
     async def roll(self, ctx):
         await ctx.send(random.randint(1, 6))
 
-    @commands.command(aliases=['8ball'])
+    @commands.command(aliases=["8ball"])
     async def _8ball(self, ctx, *, question):
         responses = ["It is certain.",
                      "It is decidedly so.",

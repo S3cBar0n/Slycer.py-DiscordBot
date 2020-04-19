@@ -8,12 +8,14 @@ client = commands.Bot(command_prefix="!", help_command=None)
 
 # Loads our cogs library
 @client.command()
+@commands.has_permissions(administrator=True)
 async def load(ctx, extension):
     client.load_extension(f"cogs.{extension}")
 
 
 # Unloads our cogs library
 @client.command()
+@commands.has_permissions(administrator=True)
 async def unload(ctx, extension):
     client.unload_extension(f"cogs.{extension}")
 
