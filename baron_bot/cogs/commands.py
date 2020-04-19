@@ -34,7 +34,7 @@ class Commands(commands.Cog):
         await ctx.send(f"I am Baron Bot, I was put together as part of a project by my creator Baron!")
 
     @commands.command()
-    async def addrole(self, ctx, arg1):
+    async def addrole(self, arg1):  # needs to use ctx if it is going to be used.
         print(arg1)
 
     @commands.command()

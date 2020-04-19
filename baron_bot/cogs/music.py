@@ -1,7 +1,7 @@
 import discord
 import os
 import shutil
-import youtube_dl
+#import youtube_dl
 from discord.ext import commands
 from discord.utils import get
 from os import system
@@ -54,13 +54,13 @@ class Music(commands.Cog):
             await ctx.send("Not in voice channel, please !join me!")
         else:
             def check_queue():
-                Queue_infile = os.path.isdir("./Queue")
-                if Queue_infile is True:
-                    DIR = os.path.abspath(os.path.realpath("Queue"))
-                    length = len(os.listdir(DIR))
+                queue_infile = os.path.isdir("./Queue")
+                if queue_infile is True:
+                    q_dir = os.path.abspath(os.path.realpath("Queue"))
+                    length = len(os.listdir(q_dir))
                     still_q = length - 1
                     try:
-                        first_file = os.listdir(DIR)[0]
+                        first_file = os.listdir(q_dir)[0]
                     except:
                         print("No more songs in the queue.\n")
                         queues.clear()
@@ -100,12 +100,12 @@ class Music(commands.Cog):
                 await ctx.send("ERROR: Music is currently being played.")
                 return
 
-            Queue_infile = os.path.isdir("./Queue")
+            queue_infile = os.path.isdir("./Queue")
             try:
-                Queue_folder = "./Queue"
-                if Queue_infile is True:
+                queue_folder = "./Queue"
+                if queue_infile is True:
                     print("Removed old Queue folder")
-                    shutil.rmtree(Queue_folder)
+                    shutil.rmtree(queue_folder)
             except:
                 print("No old Queue folder detected")
 
@@ -154,7 +154,6 @@ class Music(commands.Cog):
             await ctx.send(f"Playing Song")
 
             print("Playing\n")
-
 
     # Pause command
     @commands.command(pass_context=True, aliases=["pa", "pau"])
@@ -238,11 +237,11 @@ class Music(commands.Cog):
         if not voice:
             await ctx.send("Please use the !join command and !play a song before using the !q command")
         else:
-            Queue_infile = os.path.isdir("./Queue")
-            if Queue_infile is False:
+            queue_infile = os.path.isdir("./Queue")
+            if queue_infile is False:
                 os.mkdir("Queue")
-            DIR = os.path.abspath(os.path.realpath("Queue"))
-            q_num = len(os.listdir(DIR))
+            q_dir = os.path.abspath(os.path.realpath("Queue"))
+            q_num = len(os.listdir(q_dir))
             q_num += 1
             add_queue = True
             while add_queue:

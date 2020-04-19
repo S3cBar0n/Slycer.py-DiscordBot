@@ -31,24 +31,24 @@ class Embed(commands.Cog):
     async def helpcmd(self, ctx):
         author = ctx.message.author
 
-        embed_Help = discord.Embed(
+        embed_help = discord.Embed(
             colour=discord.Colour.orange()
         )
 
-        embed_Help.set_author(name="Baron Bot Commands:\nBot prefix = !")
-        embed_Help.add_field(name="!help", value="This command displays helpful and common commands.", inline=False)
-        embed_Help.add_field(name="!8ball", value="This command allows you to ask an 8ball a question!", inline=False)
-        embed_Help.add_field(name="!about", value="This command simply displays the creator of the bot!", inline=False)
-        embed_Help.add_field(name="!addrole", value="This command allows you to give yourself or another user a role!",
+        embed_help.set_author(name="Baron Bot Commands:\nBot prefix = !")
+        embed_help.add_field(name="!help", value="This command displays helpful and common commands.", inline=False)
+        embed_help.add_field(name="!8ball", value="This command allows you to ask an 8ball a question!", inline=False)
+        embed_help.add_field(name="!about", value="This command simply displays the creator of the bot!", inline=False)
+        embed_help.add_field(name="!addrole", value="This command allows you to give yourself or another user a role!",
                              inline=False)
-        embed_Help.add_field(name="!dumb", value="This command sends a silly message about this bot", inline=False)
-        embed_Help.add_field(name="!nextmonth", value="This shows how many days until the start of the next month!",
+        embed_help.add_field(name="!dumb", value="This command sends a silly message about this bot", inline=False)
+        embed_help.add_field(name="!nextmonth", value="This shows how many days until the start of the next month!",
                              inline=False)
-        embed_Help.add_field(name="!ping", value="This displays how long it is taking the bot to read commands!",
+        embed_help.add_field(name="!ping", value="This displays how long it is taking the bot to read commands!",
                              inline=False)
-        embed_Help.add_field(name="!summer", value="This command calculates how many days until Summer Vacation!",
+        embed_help.add_field(name="!summer", value="This command calculates how many days until Summer Vacation!",
                              inline=False)
-        embed_Help.add_field(name="Music Commands:",
+        embed_help.add_field(name="Music Commands:",
                              value="!join or !j - This command join's the bot to the current voice channel, this is the first step in playing a song!\n"
                                    "!leave or !l - This command makes the bot leave the current voice channel!\n"
                                    "!play or !pl - This commands allows you to post a link to a song you want to play! Only works after the join command is used!\n"
@@ -59,7 +59,7 @@ class Embed(commands.Cog):
                                    "!stop or !s - This stops and removes the current song from playing, as well as clears the current queue!\n"
                                    "!volume or !v - This command changes the current volume % of the music the bot is playing!")
 
-        await author.send(embed=embed_Help)
+        await author.send(embed=embed_help)
 
 
 # This function allows us to connect this cog to our bot
