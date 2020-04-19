@@ -1,7 +1,7 @@
 import discord
 import os
 import shutil
-# import youtube_dl
+import youtube_dl
 from discord.ext import commands
 from discord.utils import get
 from os import system
