@@ -59,8 +59,8 @@ class Music(commands.Cog):
                     print("No more songs in the queue.\n")
                     queues.clear()
                     return
-                main_location = os.path.dirname(os.path.realpath("/home/ubuntu/TESTING/DiscordBot/baron_bot/Queue"))
-                song_path = os.path.abspath(os.path.realpath("/home/ubuntu/TESTING/DiscordBot/baron_bot/Queue") + "/" + first_file)
+                main_location = os.path.dirname(os.path.realpath("/Queue"))
+                song_path = os.path.abspath(os.path.realpath("/Queue") + "/" + first_file)
                 if length != 0:
                     print("Preparing next song.\n")
                     print(f"Songs still in queue: {still_q}")
@@ -129,6 +129,7 @@ class Music(commands.Cog):
         }
 
         with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+            os.path.splitext(url)
             print("Downloading audio now\n")
             ydl.download([url])
 
