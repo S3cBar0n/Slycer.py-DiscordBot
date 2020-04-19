@@ -1,7 +1,7 @@
 import discord
 import os
 import shutil
-import youtube_dl
+#import youtube_dl
 from discord.ext import commands
 from discord.utils import get
 from os import system
@@ -50,7 +50,9 @@ class Music(commands.Cog):
 
         voice = get(self.client.voice_clients, guild=ctx.guild)
 
-        if voice and voice.is_connected():
+        if not voice and not voice.is_connected():
+            await ctx.send("Please !join me to the voice channel")
+        else:
             def check_queue():
                 Queue_infile = os.path.isdir("./Queue")
                 if Queue_infile is True:
@@ -153,8 +155,7 @@ class Music(commands.Cog):
 
             print("Playing\n")
 
-        else:
-            await ctx.send("Please !join me to the voice channel")
+
 
     # Pause command
     @commands.command(pass_context=True, aliases=["pa", "pau"])
@@ -236,7 +237,9 @@ class Music(commands.Cog):
 
         voice = get(self.client.voice_clients, guild=ctx.guild)
 
-        if voice and voice.is_connected():
+        if not voice and not voice.is_connected():
+            await ctx.send("Please !join and !play a song before using the queue command!")
+        else:
             Queue_infile = os.path.isdir("./Queue")
             if Queue_infile is False:
                 os.mkdir("Queue")
@@ -280,8 +283,6 @@ class Music(commands.Cog):
             await ctx.send("Adding song " + str(q_num) + " to the queue.")
             print("Song has been added to the queue.\n")
 
-        else:
-            await ctx.send("Please !join me to the voice channel")
 
 
 # This function allows us to connect this cog to our bot
