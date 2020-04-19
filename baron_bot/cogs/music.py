@@ -50,7 +50,7 @@ class Music(commands.Cog):
 
         voice = get(self.client.voice_clients, guild=ctx.guild)
 
-        if voice and voice.is_connected():
+        if voice.is_connected():
             def check_queue():
                 Queue_infile = os.path.isdir("./Queue")
                 if Queue_infile is True:
@@ -236,7 +236,7 @@ class Music(commands.Cog):
 
         voice = get(self.client.voice_clients, guild=ctx.guild)
 
-        if voice and voice.is_connected():
+        if voice.is_connected():
             Queue_infile = os.path.isdir("./Queue")
             if Queue_infile is False:
                 os.mkdir("Queue")
