@@ -49,14 +49,14 @@ class Embed(commands.Cog):
         embed_Help.add_field(name="!summer", value="This command calculates how many days until Summer Vacation!",
                              inline=False)
         embed_Help.add_field(name="Music Commands:",
-                             value="!join - This command join's the bot to the current voice channel, this is the first step in playing a song!\n"
-                                   "!leave - This command makes the bot leave the current voice channel!\n"
-                                   "!play - This commands allows you to post a link to a song you want to play! Only works after the join command is used!\n"
-                                   "!pause - This pauses the current song!\n"
-                                   "!resume - This resumes a paused song!\n"
-                                   "!queue - This command allows you to post a link to play a song and adds it to the next available queue position!\n"
-                                   "!next - This plays the next song in the queue!\n"
-                                   "!stop - This stops and removes the current song from playing, as well as clears the current queue!\n")
+                             value="!join or !j - This command join's the bot to the current voice channel, this is the first step in playing a song!\n"
+                                   "!leave or !l - This command makes the bot leave the current voice channel!\n"
+                                   "!play or !pl - This commands allows you to post a link to a song you want to play! Only works after the join command is used!\n"
+                                   "!pause or !pa - This pauses the current song!\n"
+                                   "!resume or !r - This resumes a paused song!\n"
+                                   "!queue or !q - This command allows you to post a link to play a song and adds it to the next available queue position!\n"
+                                   "!next or !n - This plays the next song in the queue!\n"
+                                   "!stop or !s - This stops and removes the current song from playing, as well as clears the current queue!\n")
 
         await author.send(embed=embed_Help)
 
