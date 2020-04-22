@@ -1,6 +1,10 @@
+# Libraries
+# Imports our libraries to calculate current/future dates
 import calendar
 import datetime
+# Imports random so we can randomize responses
 import random
+# Imports our discord command library
 from discord.ext import commands
 
 # ------------------- Variables -------------------

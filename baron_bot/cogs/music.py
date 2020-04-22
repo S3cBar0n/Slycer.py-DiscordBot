@@ -1,7 +1,12 @@
+# Libraries
+# Imports our discord library
 import discord
+# Imports our library to control the host (Deleting files)
 import os
 import shutil
+# Library for downloading YT videos
 import youtube_dl
+# Discord libraries
 from discord.ext import commands
 from discord.utils import get
 from os import system
@@ -52,18 +57,18 @@ class Music(commands.Cog):
 
         if voice:
             def check_queue():
-                Queue_infile = os.path.isdir("./Queue")
-                if Queue_infile is True:
-                    DIR = os.path.abspath(os.path.realpath("Queue"))
-                    length = len(os.listdir(DIR))
+                queue_infile = os.path.isdir("./Queue")
+                if queue_infile is True:
+                    q_dir = os.path.abspath(os.path.realpath("Queue"))
+                    length = len(os.listdir(q_dir))
                     still_q = length - 1
                     try:
-                        first_file = os.listdir(DIR)[0]
+                        first_file = os.listdir(q_dir)[0]
                     except:
                         print("No more songs in the queue.\n")
                         queues.clear()
                         return
-                    main_location = os.path.dirname(os.path.realpath("./Queue"))
+                    main_location = os.path.dirname(os.path.realpath("./"))
                     song_path = os.path.abspath(os.path.realpath("./Queue") + "/" + first_file)
                     if length != 0:
                         print("Preparing next song.\n")
@@ -98,12 +103,12 @@ class Music(commands.Cog):
                 await ctx.send("ERROR: Music is currently being played.")
                 return
 
-            Queue_infile = os.path.isdir("./Queue")
+            queue_infile = os.path.isdir("./Queue")
             try:
-                Queue_folder = "./Queue"
-                if Queue_infile is True:
+                queue_folder = "./Queue"
+                if queue_infile is True:
                     print("Removed old Queue folder")
-                    shutil.rmtree(Queue_folder)
+                    shutil.rmtree(queue_folder)
             except:
                 print("No old Queue folder detected")
 
@@ -154,8 +159,6 @@ class Music(commands.Cog):
             print("Playing\n")
         else:
             await ctx.send("Not in voice channel, please !join me!")
-
-
 
     # Pause command
     @commands.command(pass_context=True, aliases=["pa", "pau"])
@@ -237,11 +240,11 @@ class Music(commands.Cog):
         voice = get(self.client.voice_clients, guild=ctx.guild)
 
         if voice:
-            Queue_infile = os.path.isdir("./Queue")
-            if Queue_infile is False:
+            queue_infile = os.path.isdir("./Queue")
+            if queue_infile is False:
                 os.mkdir("Queue")
-            DIR = os.path.abspath(os.path.realpath("Queue"))
-            q_num = len(os.listdir(DIR))
+            q_dir = os.path.abspath(os.path.realpath("Queue"))
+            q_num = len(os.listdir(q_dir))
             q_num += 1
             add_queue = True
             while add_queue:

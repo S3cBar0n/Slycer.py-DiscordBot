@@ -1,3 +1,5 @@
+# Libraries
+# Imports our discord and discord commands libraries
 import discord
 from discord.ext import commands
 
