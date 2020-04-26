@@ -1,4 +1,4 @@
-Hello! I am S3cBar0n.. 
+Hello! I am S3cBar0n!
 
 This is my Python 3 Discord bot I have been working on. 
 
