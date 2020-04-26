@@ -1,10 +1,19 @@
-Hello there!
+Hello! I am S3cBar0n.. 
 
-This is my python discord bot project! I am using this to expand my knowledge of python.
+This is my Python 3 Discord bot I have been working on. 
 
-The following pip's are required;
-calendar
-datetime
-discord
-spotdl
-youtube_dl
+
+Features:
+Utilizes Cogs for easy modification of the bot while it is online/offline. 
+
+Has music playing capabilities and can queue up songs.
+
+Has commands to calculate days until the end of the month and when summer officially begins
+
+Has an 8ball command that provides randomized 8ball responses to your questions.
+
+
+Future Additions:
+GIF Search
+Song playing for soundcloud
+More use of discord embedding
