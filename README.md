@@ -14,6 +14,6 @@ Has an 8ball command that provides randomized 8ball responses to your questions.
 
 
 Future Additions:
-GIF Search
-Song playing for soundcloud
+GIF Search,
+Song playing for soundcloud,
 More use of discord embedding
