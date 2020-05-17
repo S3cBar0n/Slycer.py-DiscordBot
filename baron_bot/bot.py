@@ -6,9 +6,9 @@ from TOKEN import bot_token
 # Imports our discord command library
 from discord.ext import commands
 
+
 # Prefix for my commands
 client = commands.Bot(command_prefix="!", help_command=None)
-
 
 # Loads our cogs library
 @client.command()
