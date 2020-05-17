@@ -1,4 +1,3 @@
-import discord
 import requests
 import json
 import pyttsx3
@@ -7,11 +6,11 @@ import re
 import threading
 import time
 from discord.ext import commands
-from API import API_KEY, PROJECT_TOKEN, RUN_TOKEN
+from API import API_KEY, PROJECT_TOKEN
 from discord.utils import get
 
-# This references the client we created within our bot.py and passes it into the cog
 
+# This references the client we created within our bot.py and passes it into the cog
 
 
 class Assist(commands.Cog):
@@ -19,7 +18,7 @@ class Assist(commands.Cog):
         self.client = client  # this allows us to access the client within our cog
 
     @commands.command(pass_context=True, aliases=["assistant"])
-    async def assist(self, ctx):
+    async def assista(self, ctx):
         voice = get(self.client.voice_clients, guild=ctx.guild)
 
         if voice and voice.is_connected():
@@ -33,8 +32,9 @@ class Assist(commands.Cog):
                     self.data = self.get_data()
 
                 def get_data(self):
-                    response = requests.get(f'https://www.parsehub.com/api/v2/projects/{PROJECT_TOKEN}/last_ready_run/data',
-                                            params=self.params)
+                    response = requests.get(
+                        f'https://www.parsehub.com/api/v2/projects/{PROJECT_TOKEN}/last_ready_run/data',
+                        params=self.params)
                     data = json.loads(response.text)
                     return data
 
@@ -132,13 +132,13 @@ class Assist(commands.Cog):
 
                 COUNTRY_PATTERNS = {
                     re.compile("[\w\s]+ cases [\w\s]+"): lambda country: data.get_country_data(country)['total_cases'],
-                    re.compile("[\w\s]+ deaths [\w\s]+"): lambda country: data.get_country_data(country)['total_deaths'],
+                    re.compile("[\w\s]+ deaths [\w\s]+"): lambda country: data.get_country_data(country)[
+                        'total_deaths'],
                     re.compile("[\w\s]+ recovered [\w\s]+"): lambda country: data.get_country_data(country)[
                         'total_recovered']
                 }
 
                 UPDATE_COMMAND = "update"
-
 
                 while True:
                     print("Listening...")
@@ -162,8 +162,6 @@ class Assist(commands.Cog):
                     if text == UPDATE_COMMAND:
                         result = "Data is being updated. This may take a moment!"
                         data.update_data()
-
-
 
                     if result:
                         speak(result)
