@@ -29,12 +29,13 @@ dateMonthEndStr = str(dateDaysUntilMonthEnd)
 dateSentence = " Days until the month ends!"
 dateMonthEnd = dateMonthEndStr + dateSentence
 pacing = 0
+gram = False
+
 
 # This references the client we created within our bot.py and passes it into the cog
 class Commands(commands.Cog):
     def __init__(self, client):
         self.client = client  # this allows us to access the client within our cog
-
 
     # ------------------- Commands -------------------
     @commands.command(aliases=["about"])
@@ -59,7 +60,8 @@ class Commands(commands.Cog):
 
     @commands.command()
     async def pacer(self, ctx):
-        await ctx.send("The FitnessGram Pacer Test is a multistage aerobic capacity test that progressively gets more difficult as it continues.")
+        global gram
+        await ctx.send("The FitnessGram Pacer Test:tm: is a multistage aerobic capacity test that progressively gets more difficult as it continues.")
         time.sleep(2)
         await ctx.send("The 20 meter pacer test will begin in 30 seconds.")
         time.sleep(1)
@@ -78,16 +80,22 @@ class Commands(commands.Cog):
         await ctx.send("...")
         time.sleep(0.5)
         await ctx.send("START! (say !pace to continue the test!)")
+        gram = True
 
     @commands.command()
     async def pace(self, ctx):
         global pacing
-        if pacing <= 49:
-            pacing += 1
-            await ctx.send(f"Lap # {pacing} completed successfully!")
-        if pacing == 50:
-            await ctx.send("This concludes the Pacer Gram fitness test...")
-            pacing = 0
+        global gram
+        if gram == True:
+            if pacing <= 49:
+                pacing += 1
+                await ctx.send(f"Lap # {pacing} completed successfully!")
+            if pacing == 50:
+                await ctx.send("This concludes the Pacer Gram fitness test...")
+                pacing = 0
+                gram = False
+        else:
+            await ctx.send("You must first start the FitnessGram Pacer Test:tm:... Please start the Fitness test... !pacer")
 
     @commands.command()
     async def summer(self, ctx):
