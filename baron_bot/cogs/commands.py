@@ -82,10 +82,10 @@ class Commands(commands.Cog):
     @commands.command()
     async def pace(self, ctx):
         global pacing
-        if pacing <= 4:
+        if pacing <= 49:
             pacing += 1
             await ctx.send(f"Lap # {pacing} completed successfully!")
-        if pacing == 5:
+        if pacing == 50:
             await ctx.send("This concludes the Pacer Gram fitness test...")
             pacing = 0
 
