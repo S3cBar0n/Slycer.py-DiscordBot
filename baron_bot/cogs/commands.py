@@ -3,6 +3,7 @@
 import calendar
 import datetime
 import time
+# Temp Libraries for some sort of Giphy API implementation
 import json
 import aiohttp
 # Imports random so we can randomize responses
@@ -12,12 +13,14 @@ from discord.ext import commands
 
 # ------------------- Variables -------------------
 dateToday = datetime.date.today()
+print(dateToday)
 
 # Calculates how many days are in the current month
 dateDaysInMonth = calendar.monthrange(dateToday.year, dateToday.month)[1]
 
 # Variables to Calculate days until Summer Vacation
-dateSchoolEnd = datetime.date(2021, 5, 15) - dateToday
+dateSchoolEnd = datetime.date(2021, 5,
+                              15) - dateToday  # Fix this to allow dateToday.year to work, currently does not pull the correct year
 dateSchoolEndStr = str(dateSchoolEnd)
 dateSummer = dateSchoolEndStr.strip("0: ,")
 dateSummerSentence = " until summer!"
@@ -28,6 +31,8 @@ dateDaysUntilMonthEnd = dateDaysInMonth - dateToday.day + 1
 dateMonthEndStr = str(dateDaysUntilMonthEnd)
 dateSentence = " Days until the month ends!"
 dateMonthEnd = dateMonthEndStr + dateSentence
+
+# Variables for the Pacer Test Command
 pacing = 0
 gram = False
 
@@ -43,7 +48,7 @@ class Commands(commands.Cog):
         await ctx.send(f"I am Baron Bot, I was put together as part of a project by my creator Baron!")
 
     @commands.command()
-    async def addrole(self, arg1):  # needs to use ctx if it is going to be used.
+    async def addrole(self, arg1):  # need to add ctx if it is going to be used.
         print(arg1)
 
     @commands.command()
@@ -61,7 +66,8 @@ class Commands(commands.Cog):
     @commands.command()
     async def pacer(self, ctx):
         global gram
-        await ctx.send("The FitnessGram Pacer Test:tm: is a multistage aerobic capacity test that progressively gets more difficult as it continues.")
+        await ctx.send(
+            "The FitnessGram Pacer Test:tm: is a multistage aerobic capacity test that progressively gets more difficult as it continues.")
         time.sleep(2)
         await ctx.send("The 20 meter pacer test will begin in 30 seconds.")
         time.sleep(1)
@@ -69,7 +75,8 @@ class Commands(commands.Cog):
         time.sleep(2)
         await ctx.send("The running speed starts slowly but gets faster each minute after you hear this signal *BEEP*")
         time.sleep(2)
-        await ctx.send("A single lap should be completed every time you hear this sound: *DING*, remember to run in a straight line and run as long as possible.")
+        await ctx.send(
+            "A single lap should be completed every time you hear this sound: *DING*, remember to run in a straight line and run as long as possible.")
         time.sleep(2)
         await ctx.send("The second time you fail to complete a lap before the sound, your test is over.")
         time.sleep(2)
@@ -86,7 +93,7 @@ class Commands(commands.Cog):
     async def pace(self, ctx):
         global pacing
         global gram
-        if gram == True:
+        if gram:
             if pacing <= 49:
                 pacing += 1
                 await ctx.send(f"Lap # {pacing} completed successfully!")
@@ -95,7 +102,21 @@ class Commands(commands.Cog):
                 pacing = 0
                 gram = False
         else:
-            await ctx.send("You must first start the FitnessGram Pacer Test:tm:... Please start the Fitness test... !pacer")
+            await ctx.send(
+                "You must first start the FitnessGram Pacer Test:tm:... Please start the Fitness test... !pacer")
+
+    @commands.command()
+    async def pacetest(self, ctx):
+        global pacing
+        global gram
+        if gram:
+            if pacing <= 49:
+                pacing += 1
+                await ctx.send(f"Lap # {pacing} completed successfully!")
+            if pacing == 50:
+                await ctx.send("This concludes the Pacer Gram fitness test...")
+                pacing = 0
+                gram = False
 
     @commands.command()
     async def summer(self, ctx):
