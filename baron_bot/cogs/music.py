@@ -98,7 +98,7 @@ class Music(commands.Cog):
             await ctx.send(f"Are you sure I am in {channel}?")
 
     # Play command for the Music Bot
-    @commands.command(pass_context=True, aliases=["pl"])
+    @commands.command(pass_context=True, aliases=["p", "pl"])
     async def play(self, ctx, *url: str):
 
         ###############################################################################################################
@@ -118,7 +118,7 @@ class Music(commands.Cog):
                 SQL.execute(f'select Server_Name from Music where Server_ID="{server_id}" and Server_Name="{server_name}"')
                 name_server = SQL.fetchone()
             except:
-                await ctx.send("The bot must join a voice channel to play a song: Join one and use '/join'")
+                await ctx.send("The bot must join a voice channel to play a song: Join one and use '!join'")
                 return
 
             ###############################################################################################################
@@ -228,8 +228,15 @@ class Music(commands.Cog):
             song_path = f"./{name_song[0]}({name_server[0]}).mp3"
 
             ydl_opts = {
+                'match_filter': youtube_dl.utils.match_filter_func("!is_live"),
                 'format': 'bestaudio/best',
+                'restrictfilenames': True,
+                'noplaylist': True,
+                'nocheckcertificate': True,
+                'ignoreerrors': False,
+                'logtostderr': False,
                 'quiet': False,
+                'no_warnings': True,
                 'outtmpl': song_path,
                 'postprocessors': [{
                     'key': 'FFmpegExtractAudio',
@@ -291,7 +298,7 @@ class Music(commands.Cog):
             await ctx.send("Music is not currently paused.")
 
     # Stop Command
-    @commands.command(pass_context=True, aliases=["s"])
+    @commands.command(pass_context=True, aliases=["st"])
     async def stop(self, ctx):
 
         ###############################################################################################################
@@ -323,7 +330,7 @@ class Music(commands.Cog):
             await ctx.send("No music currently playing... Failed to stop")
 
     # Next Command
-    @commands.command(pass_context=True, aliases=["n", "skip", "sk"])
+    @commands.command(pass_context=True, aliases=["n", "skip", "s", "sk"])
     async def next(self, ctx):
         voice = get(self.client.voice_clients, guild=ctx.guild)
 
@@ -383,8 +390,15 @@ class Music(commands.Cog):
             os.path.realpath(Queue_Main) + f"\\{q_num[0]}-{name_song[0]}({name_server[0]}).mp3")
 
         ydl_opts = {
+            'match_filter': youtube_dl.utils.match_filter_func("!is_live"),
             'format': 'bestaudio/best',
+            'restrictfilenames': True,
+            'noplaylist': True,
+            'nocheckcertificate': True,
+            'ignoreerrors': False,
+            'logtostderr': False,
             'quiet': False,
+            'no_warnings': True,
             'outtmpl': queue_path,
             'postprocessors': [{
                 'key': 'FFmpegExtractAudio',
