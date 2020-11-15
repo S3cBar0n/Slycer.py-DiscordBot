@@ -44,6 +44,8 @@ class Embed(commands.Cog):
         embed_help.add_field(name="!addrole", value="This command allows you to give yourself or another user a role!",
                              inline=False)
         embed_help.add_field(name="!dumb", value="This command sends a silly message about this bot", inline=False)
+        embed_help.add_field(name="!joke", value="This returns a dad joke", inline=False)
+        embed_help.add_field(name="!meme", value="Returns a random meme from a meme page", inline=False)
         embed_help.add_field(name="!nextmonth", value="This shows how many days until the start of the next month!",
                              inline=False)
         embed_help.add_field(name="!ping", value="This displays how long it is taking the bot to read commands!",
