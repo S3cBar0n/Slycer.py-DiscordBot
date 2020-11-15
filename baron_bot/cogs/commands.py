@@ -2,6 +2,7 @@
 # Imports our libraries to calculate current/future dates
 import calendar
 import datetime
+import discord
 import time
 # Temp Libraries for some sort of Giphy API implementation
 import json
@@ -48,6 +49,7 @@ class Commands(commands.Cog):
         await ctx.send(f"I am Baron Bot, I was put together as part of a project by my creator Baron!")
 
     @commands.command()
+    @commands.has_permissions(kick_members=True)
     async def addrole(self, arg1):  # need to add ctx if it is going to be used.
         print(arg1)
 
@@ -150,6 +152,15 @@ class Commands(commands.Cog):
                      "Outlook not so good.",
                      "Very doubtful."]
         await ctx.send(f"Question: {question}\nAnswer: {random.choice(responses)}")
+
+    @commands.command(aliases=["user", "info"])
+    # @commands.has_permissions(kick_members=True)
+    async def whois(self, ctx, member: discord.Member):
+        embed = discord.Embed(title=member.name, description=member.mention, color=discord.Colour.green())
+        embed.add_field(name='ID', value=member.id, inline=True)
+        embed.set_thumbnail(url=member.avatar_url)
+        embed.set_footer(icon_url=ctx.author.avatar_url, text=f"Requested by {ctx.author.name}")
+        await ctx.send(embed=embed)
 
 
 # This function allows us to connect this cog to our bot
